@@ -5,11 +5,21 @@ import CorreHandler from './corre';
 export default class Client {
   private static instance: Client;
   private static whatsAppClient;
+  private static qrCode;
 
   public static getInstance = async () => {
     if(!Client.instance) {
       Client.instance = new Client();
-      let client = await create('IDV');
+      let client = await create(
+        'IDV', 
+        (base64Qrimg, asciiQR, attempts, urlCode) => {
+          Client.qrCode = base64Qrimg;
+          console.log('Number of attempts to read the qrcode: ', attempts);
+          console.log('Terminal qrcode: ', asciiQR);
+          console.log('base64 image string qrcode: ', base64Qrimg);
+          console.log('urlCode (data-ref): ', urlCode);
+        }
+      );
       Client.whatsAppClient = client; 
       Client.listen();
     }
@@ -19,6 +29,10 @@ export default class Client {
 
   public getClient = () => {
     return Client.whatsAppClient;
+  }
+
+  public getQrCode = () => {
+    return Client.qrCode
   }
 
   private static listen = () => {
@@ -80,7 +94,10 @@ export default class Client {
             `*Ex:* /entrar 15\n\n`+
             `*/sair* - Você vira um ramelão\n\n`+
             `*/info* - Informa a situação do corre\n\n`+
-            `*/finalizarCorre* - Finaliza o corre e devolve um resumo\n\n`);
+            `*/finalizarCorre* - Finaliza o corre e devolve um resumo`);
+            break;
+          case "/ping":
+            return Client.whatsAppClient.reply(message.from, "Pong!", message.id);
             break;
         }
       }
