@@ -11,6 +11,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, async () => {
-  bas64 = (await Client.getInstance()).getQrCode();
   console.log(`Example app listening at ${port}`)
 })
