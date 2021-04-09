@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "start:dev": "nodemon ./src/server.ts",
-    "start": "ts-node src/server.ts"
+    "start:dev": "nodemon ./src/index.ts",
+    "start": "ts-node src/index.ts"
   }
 }
