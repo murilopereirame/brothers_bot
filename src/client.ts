@@ -65,7 +65,11 @@ export default class Client {
             break;
           case "/finalizarCorre":
             CorreHandler.getInstance().finalizaCorre(message.from);
-            break;    
+            break;
+          case "/moeda":
+            const coin = Math.random();
+            coin < 0.5 ? Client.whatsAppClient.sendText(message.from, "Cara") : Client.whatsAppClient.sendText(message.from, "Coroa")
+            break; 
           case "/comandos":
             return Client.whatsAppClient.sendText(message.from, 
             `*/ban* - Inicia voteban na pessoa citada\n`+
